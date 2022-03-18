@@ -1,4 +1,8 @@
+#pip install -r requirements.txt
+
 Flask==1.1.1
 requests==2.22.0
 
-#pip install -r requirements.txt
+
+
+
