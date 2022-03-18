@@ -22,31 +22,50 @@ var url = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&APPID="
 // http response for testing at http://localhost:8081
 func main() {
 	http.HandleFunc("/", handler) 
+	http.HandleFunc("/json", jsonHandler) 
 	http.ListenAndServe(":8081", nil) 
 }
 
-// print to localhost
 func handler(w http.ResponseWriter, r *http.Request) {                               
     fmt.Fprintf(w, "Hello Linus") 
 }
 
+type User struct { 
+	Id    int     `json:"id"` 
+	Name  string  `json:"name"` 
+	Email string  `json:"email"` 
+	Phone string  `json:"phone"` 
+}
+
+
+func jsonHandler(w http.ResponseWriter, r *http.Request) {     
+      
+	w.Header().Set("Content-Type", "application/json") 
+	user := User {
+				  Id: 1, 
+				  Name: "John Doe", 
+				  Email: "johndoe@gmail.com", 
+				  Phone: "000099999"} 
+				  
+   json.NewEncoder(w).Encode(user) 
+}
 
 // dinge die Linus nicht sehen soll, weil Max Schabernack macht, btw alle comments sind von mir und auf einmal schreibe ich auf Deutsch statt Englisch
-
-/*func weather_data() {
-	data := url.json()
+/*
+func weather_data() {
+	var data = url.json()
 	
-	city_data = {
+	var city_data = (
         "city": data["name"],
         "sunrise": datetime.fromtimestamp(data["sys"]["sunrise"]),
         "sunset": datetime.fromtimestamp(data["sys"]["sunset"])
-    }
+	)
 
-    weather_data = {
+    var weather_data = (
         "city": data["name"],
         "weather": data["weather"][0]["description"],
         "temperature": round(kelvin_to_celsius(data["main"]["feels_like"]), 1)
-    }
+	)
 
     return {"city_data":city_data, "weather_data":weather_data}
 } 
